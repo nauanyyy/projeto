@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Novo Animal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('auth.logout') }}" class="botoes-btn left-btn">Logout</a>
+    <a href="{{ url_for('home.home') }}" class="botoes-btn right-btn">Voltar</a>
+
+    <div class="cadastro-container">
+        <h2>Cadastrar Novo Animal</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('home.cadastrar_animal') }}" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+        
+            <label for="especie">Espécie:</label>
+            <select id="especie" name="especie" required>
+                <option value="cachorro">Cachorro</option>
+                <option value="gato">Gato</option>
+            </select>
+
+            <label for="raca">Raça:</label>
+            <input type="text" id="raca" name="raca" required>
+
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" name="idade" required>
+            <select id="unidade_idade" name="unidade_idade" required>
+                <option value="anos">Anos</option>
+                <option value="meses">Meses</option>
+            </select>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="disponivel">Disponível</option>
+                <option value="adotado">Adotado</option>
+            </select>
+
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" required></textarea>
+        
+            <label for="localizacao">Localização:</label>
+            <input type="text" id="localizacao" name="localizacao" required>
+
+            <button type="submit" class="btn" style="font-size: 14px;">Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Animal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('auth.logout') }}" class="botoes-btn left-btn">Logout</a>
+    <a href="{{ url_for('home.home') }}" class="botoes-btn right-btn">Voltar</a>
+
+    <div class="cadastro-container">
+        <h2>Editar Animal</h2>
+        <form method="POST">
+            <label>Nome:</label>
+            <input type="text" name="nome" value="{{ animal[1] }}" required>
+
+            <label>Espécie:</label>
+            <select name="especie" required>
+                <option value="cachorro" {% if animal[2] == "cachorro" %}selected{% endif %}>Cachorro</option>
+                <option value="gato" {% if animal[2] == "gato" %}selected{% endif %}>Gato</option>
+            </select>
+
+            <label>Raça:</label>
+            <input type="text" name="raca" value="{{ animal[3] }}" required>
+
+            <label>Idade:</label>
+            <input type="number" name="idade" value="{{ animal[4] }}" required>
+            <select id="unidade_idade" name="unidade_idade" value="{{animal[5]}}"  required>
+                <option value="anos">Anos</option>
+                <option value="meses">Meses</option>
+            </select>
+
+            <label>Descrição:</label>
+            <textarea name="descricao" required>{{ animal[6] }}</textarea>
+
+            <label>Status:</label>
+            <select name="status" required>
+                <option value="disponivel" {% if animal[8] == "disponivel" %}selected{% endif %}>Disponível</option>
+                <option value="adotado" {% if animal[8] == "adotado" %}selected{% endif %}>Adotado</option>
+            </select>
+
+
+            <label>Localização:</label>
+            <input type="text" name="localizacao" value="{{ animal[7] }}" required>
+
+            
+            <button type="submit" class="btn" style="font-size: 14px;">Salvar Alterações</button>
+        </form>
+
+        <a href="{{ url_for('home.home') }}" class="btn" style="font-size: 14px;">Cancelar</a>
+    </div>
+</body>
+</html>

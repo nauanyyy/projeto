@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitações de Adoção</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('auth.logout') }}" class="botoes-btn left-btn">Logout</a>
+    <a href="{{ url_for('home.home') }}" class="botoes-btn right-btn">Voltar</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    {% if category in ['success', 'error', 'warning'] %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container-analise">
+        <h2>Solicitações de Adoção</h2>
+        
+        <div class="animais-container">
+            {% for solicitacao in solicitacoes %}
+            <div class="solicitacoes-card">
+                <h3>{{ solicitacao[1] }} quer adotar {{ solicitacao[3] }}</h3>
+                <p><strong>Email do adotante:</strong> {{ solicitacao[2] }}</p>
+                <p><strong>Espécie:</strong> {{ solicitacao[4] }}</p>
+                <p><strong>Raça:</strong> {{ solicitacao[5] }}</p>
+                <p><strong>Localização:</strong> {{ solicitacao[6] }}</p>
+                <p><strong>Status:</strong> {{ solicitacao[7] }}</p>
+
+                <form action="{{ url_for('home.confirmar_adocao', solicitacao_id=solicitacao[0], animal_id=solicitacao[8]) }}" method="post">
+                    <button type="submit" class="btn">Aprovar</button>
+                </form>
+
+                <form action="{{ url_for('home.recusar_adocao', solicitacao_id=solicitacao[0]) }}" method="post">
+                    <button type="submit" class="btn btn-danger">Recusar</button>
+                </form>
+            </div>
+
+            {% else %}
+                <p style="color: rgb(70, 167, 170);">Nenhuma solicitação de adoção no momento.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

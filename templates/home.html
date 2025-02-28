@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animais Disponíveis para Adoção</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('auth.logout') }}" class="botoes-btn left-btn">Logout</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <h2>Animais Disponíveis para Adoção</h2>
+
+        {% if current_user.tipo == 'admin' %}
+            <div class="admin-options">
+                <a href="{{ url_for('home.cadastrar_animal') }}" class="btn">Cadastrar Novo Animal</a>
+                <a href="{{ url_for('home.animais_cadastrados') }}" class="btn">Ver Animais Cadastrados</a>
+                <a href="{{ url_for('home.solicitacoes_adocao') }}" class="btn">Ver Solicitações de Adoção</a>
+            </div>
+        {% else %}
+            <a href="{{ url_for('home.minhas_solicitacoes') }}" class="btn">Minhas Solicitações</a>
+        {% endif %}
+
+        <div class="animais-container" style="width: 800px;">
+            {% if animais %}
+                {% for animal in animais %}
+                <div class="animal-card">
+                    {% if animal[2] == 'gato' %}
+                        <img src="{{ url_for('static', filename='gato.png') }}" alt="Imagem do Gato" class="animal-img">
+                    {% elif animal[2] == 'cachorro' %}
+                        <img src="{{ url_for('static', filename='cachorro.png') }}" alt="Imagem do Cachorro" class="animal-img">
+                    {% endif %}
+                    <h3>{{ animal[1] }}</h3> 
+                    <p><strong>Espécie:</strong> {{ animal[2] }}</p>
+                    <p><strong>Raça:</strong> {{ animal[3] }}</p>
+                    <p><strong>Idade:</strong> {{ animal[4] }} {{ animal[5] }}</p> 
+                    <p><strong>Descrição:</strong> {{ animal[6] }}</p>
+                    <p><strong>Status:</strong> {{ animal[8] }}</p>
+                    <p><strong>Localização:</strong> {{ animal[7] }}</p> 
+
+                    {% if current_user.tipo == 'admin' %}
+                        <a href="{{ url_for('home.editar_animal', id=animal[0]) }}" class="btn">Editar</a>
+                    {% else %}
+                        <a href="{{ url_for('home.solicitar_adocao', animal_id=animal[0]) }}" class="btn">Solicitar Adoção</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-animals" style="color: rgb(91, 163, 165);">
+                    <h3>Nenhum animal disponível para adoção no momento.</h3>
+                </div>
+            {% endif %}
+        </div>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Solicitações</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('auth.logout') }}" class="botoes-btn left-btn">Logout</a>
+    <a href="{{ url_for('home.home') }}" class="botoes-btn right-btn">Voltar</a>
+
+    <div class="container-solicitacoes" style="width: 500px;">
+        <h2>Minhas Solicitações de Adoção</h2>
+        
+        {% for solicitacao in solicitacoes %}
+            <div class="solicitacoes-card" style="width: 250px;">
+                <h3>Solicitação para adotar {{ solicitacao[2] }}</h3>
+                <p><strong>Status:</strong> {{ solicitacao[0] }}</p>
+                <p><strong>Mensagem:</strong> {{ solicitacao[1] }}</p>
+            </div>
+        {% else %}
+            <p style="color: rgb(70, 167, 170);">Você ainda não fez nenhuma solicitação de adoção.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
